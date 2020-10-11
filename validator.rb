@@ -69,12 +69,50 @@ class Validator
   end
 
   def is_date_on_format(field_content, validation_params)
-    Date.strptime(field_content, validation_params)
+    begin
+      return [true, Date.strptime(field_content, validation_params)]
+    rescue
+      return [false, nil]
+    end
   end
 
   def is_on_month(field_content, validation_params)
-    return [false, nil] unless ["Date", "Time"].include? field_content
-    return [false, nil] unless field_content.month == Integer(validation_params, 10)
+    return [false, nil] unless ['Date', 'Time'].include? field_content.class.to_s
+    if validation_params.class.to_s == 'String'
+      return [false, nil] unless field_content.month == Integer(validation_params, 10)
+    else
+      return [false, nil] unless field_content.month == validation_params
+    end
+    return [true, field_content]
+  end
+
+  def is_on_year(field_content, validation_params)
+    return [false, nil] unless ['Date', 'Time'].include? field_content.class.to_s
+    if validation_params.class.to_s == 'String'
+      return [false, nil] unless field_content.year == Integer(validation_params, 10)
+    else
+      return [false, nil] unless field_content.year == validation_params
+    end
+    return [true, field_content]
+  end
+
+  def is_one_of(field_content, validation_params)
+    return [false, nil] unless validation_params.include? field_content
+    return [true, field_content]
+  end
+
+  def has_max_length(field_content, validation_params)
+    return [false, nil] unless field_content.length <= validation_params
+    return [true, field_content]
+  end
+
+  def has_min_length(field_content, validation_params)
+    return [false, nil] unless field_content.length >= validation_params
+    return [true, field_content]
+  end
+
+  def has_length(field_content, validation_params)
+    return [false, nil] unless field_content.length == validation_params
     return [true, field_content]
   end
 end
