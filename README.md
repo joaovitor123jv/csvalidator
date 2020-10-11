@@ -16,8 +16,8 @@
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
 * [Getting Started](#getting-started)
+  * [Available validation methods](#available-validation-methods)
   * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
 * [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
@@ -112,6 +112,179 @@ secure and accurate
     ```
 
 * Enjoy!
+
+### Available validation methods
+
+* is_integer:
+    - No params
+    - Converts field validated to integer (always decimal), if possible
+    - Possible input: `"00239"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_integer
+        ]
+        ```
+
+* is_float
+    - No params
+    - Converts field validated to float, if possible
+    - Possible input: `"00239.92"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_float
+        ]
+        ```
+
+* is_comma_float
+    - No params
+    - Converts field validated to float, if possible
+    - Possible input: `"00239,92"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_comma_float
+        ]
+        ```
+
+* is_comma_float_with_thousands_separator
+    - No params
+    - Converts field validated to float, if possible
+    - Possible input: `"1.002.239,92"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_comma_float_with_thousands_separator
+        ]
+        ```
+
+* is_positive
+    - No params
+    - Field must be numeric
+    - Possible input: `19283`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_integer,
+            :is_positive
+        ]
+        ```
+
+* is_upcase
+    - No params
+    - Possible input: `"ALABAMA"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_upcase
+        ]
+        ```
+
+* is_not_empty
+    - No params
+    - `nil` and `""` are considered as "empty"
+    - Possible input: `"anything"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_not_empty
+        ]
+        ```
+
+* is_not_zero
+    - No params
+    - Possible input: `0`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            :is_not_zero
+        ]
+        ```
+
+* is_date_on_format
+    - Converts validated field to Date, if possible
+    - Param: Date format
+    - Possible param: `"%Y/%m"`
+    - Possible input: `"2020/09"`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {is_date_on_format: '%Y/%m'}
+        ]
+        ```
+
+* is_on_month
+    - Must be `Date` or `Time`
+    - Param: Month number (January is 1)
+    - Possible param: `#<Date: 2020-01-01 ((2458850j,0s,0n),+0s,2299161j)>`
+    - Possible input: `1`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {is_date_on_format: '%Y/%m'},
+            {is_on_month: 1}
+        ]
+        ```
+
+* is_on_year
+    - Must be `Date` or `Time`
+    - Param: Year number
+    - Possible param: `#<Date: 2020-01-01 ((2458850j,0s,0n),+0s,2299161j)>`
+    - Possible input: `2020`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {is_date_on_format: '%Y/%m'},
+            {is_on_year: 2020}
+        ]
+        ```
+
+* is_one_of
+    - Param: Possible values to field
+    - Possible param: `[1, 3, 6, 8, 10]`
+    - Possible input: `3`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {is_one_of: [
+                1, 3, 6, 8, 10
+            ]}
+        ]
+        ```
+
+* has_max_length
+    - Param: Maximum length
+    - Possible param: `10`
+    - Possible input: `'asdqwerc'`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {has_max_length: 10}
+        ]
+        ```
+
+* has_min_length
+    - Param: Minimum length
+    - Possible param: `10`
+    - Possible input: `'asdqwertfalkfjkpgoc'`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {has_min_length: 10}
+        ]
+        ```
+
+* has_length
+    - Param: Required length
+    - Possible param: `10`
+    - Possible input: `'flaoekqmnv'`
+    - Possible usage: 
+        ```ruby
+        "Column Key": [
+            {has_length: 10}
+        ]
+        ```
 
 
 ### Prerequisites
